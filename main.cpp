@@ -1,13 +1,9 @@
 #include <iostream>
 #include <string>
-#include <cstdio>
 #include <cmath>
 #include <iomanip>
 
-#define N 10
-
 using namespace std;
-
 
 void getPeople();
 void swap(int& first1, int& first2, string& last1, string& last2, string& lname1, string& lname2);
@@ -16,7 +12,7 @@ float calcMean();
 int calcMode();
 float calcGMean();
 void calcDeviations(int avg);
-void calcStdDevtion();
+void calcStdDeviation();
 void calcZScore();
 float calcMedian();
 void print(float mean, int mode, float gmean, float median);
@@ -41,7 +37,7 @@ int main(){
     mode = calcMode();
     gmean = calcGMean();
     calcDeviations(mean);
-    calcStdDevtion();
+    calcStdDeviation();
     calcZScore();
     median = calcMedian();
     print(mean, mode, gmean, median);
@@ -172,7 +168,7 @@ void calcDeviations(int avg){
     }
 }
 
-void calcStdDevtion(){
+void calcStdDeviation(){
     float devAbsolute[100];
     for(int i = 1; i <= numpeople; i++){
         devAbsolute[i] = abs(deviation[i]);
@@ -223,11 +219,5 @@ void print(float mean, int mode, float gmean, float median){
 }
 
 float round(float n, int place){
-    float floor, nTimes, nOut;
-    int rounded;
-    nTimes = n * place;
-    floor = nTimes + 0.5;
-    rounded = floor;
-    nOut = (float)rounded / place;
-    return nOut;
+    return round(n * place) / place;
 }
