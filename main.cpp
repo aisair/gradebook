@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
+#include <cstdio>
 #include <cmath>
-#include <stdio.h>
-#include <math.h>
 #include <iomanip>
 
 #define N 10
@@ -34,39 +33,9 @@ float zscore[100];
 int main(){
     int mode;
     float mean, gmean, median;
-    bool debug = 0, manualorauto;
     string temp;
 
     getPeople();
-
-    /*cout << "Would you like to extract values from file? (Y / N)";
-    cin >> temp;
-
-    if(temp == "Y"){
-        manualorauto = 0;
-    }
-    else if{
-        manualorauto = 1;
-    }
-    else{
-        manualorauto = 1;
-    }+
-
-    if(manualorauto == 1){
-        getPeople();
-    }
-    else{
-
-    }*/
-
-    //names[1] = "Sam";
-    //names[2] = "Etho";
-    //names[3] = "Kathy";
-    //scores[1] = 44;
-    //scores[2] = 33;
-    //scores[3] = 44;
-    //numpeople = 3;
-
     sortArray();
     mean = calcMean();
     mode = calcMode();
