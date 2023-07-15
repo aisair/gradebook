@@ -1,12 +1,20 @@
 #include <iostream>
-#include <string>
-#include <cmath>
 #include <iomanip>
 
-using namespace std;
+struct Person {
+    std::string first_name;
+    std::string last_name;
+    int score;
+    float deviation;
+    float zscore;
+
+    Person(std::string first, std::string last, int score) : first_name(first),
+        last_name(last), score(score), deviation(0.0f), zscore(0.0f) {}
+};
 
 void getPeople();
-void swap(int& first1, int& first2, string& last1, string& last2, string& lname1, string& lname2);
+void swap(int& first1, int& first2, std::string& last1, std::string& last2,
+    std::string& lname1, std::string& lname2);
 void sortArray();
 float calcMean();
 int calcMode();
@@ -18,18 +26,19 @@ float calcMedian();
 void print(float mean, int mode, float gmean, float median);
 float round(float n, int place);
 
-string names[100];
-string lnames[100];
+std::string names[100];
+std::string lnames[100];
 int scores[100];
 int numpeople;
 float deviation[100];
 float stddevtion;
 float zscore[100];
+std::vector<Person> students;
 
 int main(){
     int mode;
     float mean, gmean, median;
-    string temp;
+    std::string temp;
 
     getPeople();
     sortArray();
@@ -47,15 +56,15 @@ int main(){
 
 void getPeople(){
     int stop = 0, person = 1;
-    string temp, temp1;
+    std::string temp, temp1;
     numpeople = 0;
     while(stop == 0){
         int restart = 1;
         while(restart == 1){
             restart = 0;
 
-            cout << "Please enter name of person " << person << " (enter END to stop) : ";
-            cin >> temp >> temp1;
+            std::cout << "Please enter name of person " << person << " (enter END to stop) : ";
+            std::cin >> temp >> temp1;
             if(temp == "END"){
                 stop = 1;
                 restart = 0;
@@ -64,15 +73,15 @@ void getPeople(){
                 names[person] = temp;
                 lnames[person] = temp1;
 
-                cout << "Please enter score of person " << person << ": ";
-                cin >> scores[person];
+                std::cout << "Please enter score of person " << person << ": ";
+                std::cin >> scores[person];
 
                 if(scores[person] < 0){
-                    cout << "The score for " << names[person] << ' ' << lnames[person] << " is " << scores[person] << " which cannot be less than zero.";
+                    std::cout << "The score for " << names[person] << ' ' << lnames[person] << " is " << scores[person] << " which cannot be less than zero.";
                     restart = 1;
                 }
                 else{
-                    cout << "The persons name is " << names[person] << ' ' << lnames[person] << " and they have a score of " << scores[person] << '.' << endl;
+                    std::cout << "The persons name is " << names[person] << ' ' << lnames[person] << " and they have a score of " << scores[person] << '.' << std::endl;
                 }
                 numpeople++;
             }
@@ -82,10 +91,10 @@ void getPeople(){
 }
 
 void sortArray(){
-    cout << "Sort initialized." << endl;
+    std::cout << "Sort initialized." << std::endl;
     int num = 0;
     int done = 0;
-    cout << "Starting up..." << endl << "Sorting..." << endl;
+    std::cout << "Starting up..." << std::endl << "Sorting..." << std::endl;
     while(done == 0){
         done = 1;
         num = 0;
@@ -97,13 +106,13 @@ void sortArray(){
             num++;
         }
     }
-    cout << "Sort done!" << endl << endl;
+    std::cout << "Sort done!" << std::endl << std::endl;
 }
 
-void swap(int& first1, int& first2, string& last1, string& last2, string& lname1, string& lname2){
+void swap(int& first1, int& first2, std::string& last1, std::string& last2, std::string& lname1, std::string& lname2){
     int firstTemp = first1;
-    string lastTemp = last1;
-    string lnameTemp = lname1;
+    std::string lastTemp = last1;
+    std::string lnameTemp = lname1;
     first1 = first2;
     last1 = last2;
     first2 = firstTemp;
@@ -199,7 +208,7 @@ float calcMedian(){
         int numleft = scores[(numpeople / 2) - 1];
         int numright = scores[(numpeople / 2) + 1];
         output = (numleft + numright) / 2;
-        cout << endl << numleft << ' ' << numright << ' ' << output << endl;
+        std::cout << std::endl << numleft << ' ' << numright << ' ' << output << std::endl;
         return output;
     }
     else{
@@ -209,12 +218,12 @@ float calcMedian(){
 }
 
 void print(float mean, int mode, float gmean, float median){
-    cout << endl << "Globals:" << endl << "Mean = " << mean << endl << "Median = " << median << endl << "Mode = " << mode << endl << "Geometric Mean = " << gmean << endl;
-    cout << "Standard Deviation = " << stddevtion << endl;
+    std::cout << std::endl << "Globals:" << std::endl << "Mean = " << mean << std::endl << "Median = " << median << std::endl << "Mode = " << mode << std::endl << "Geometric Mean = " << gmean << std::endl;
+    std::cout << "Standard Deviation = " << stddevtion << std::endl;
 
-    cout << endl << setw(7) << "Name" << setw(14) << "Score" << setw(11) << "Deviation" << setw(10) << "Z-Scores" << endl;
+    std::cout << std::endl << std::setw(7) << "Name" << std::setw(14) << "Score" << std::setw(11) << "Deviation" << std::setw(10) << "Z-Scores" << std::endl;
     for(int i = 1; i <= numpeople; i++){
-        cout << setw(7) << names[i] << ' ' << setw(7) << lnames[i] << setw(7) << scores[i] << setw(11) << deviation[i] << setw(10) << zscore[i] << endl;
+        std::cout << std::setw(7) << names[i] << ' ' << std::setw(7) << lnames[i] << std::setw(7) << scores[i] << std::setw(11) << deviation[i] << std::setw(10) << zscore[i] << std::endl;
     }
 }
 
