@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <string>
 
 struct Person {
     std::string first_name;
@@ -7,12 +8,12 @@ struct Person {
     int score;
     float deviation;
     float zscore;
-
+    Person() : first_name(), last_name(), score() {}
     Person(std::string first, std::string last, int score) : first_name(first),
         last_name(last), score(score), deviation(0.0f), zscore(0.0f) {}
 };
 
-void getPeople();
+std::vector<Person> initPeople();
 void swap(int& first1, int& first2, std::string& last1, std::string& last2,
     std::string& lname1, std::string& lname2);
 void sortArray();
@@ -33,14 +34,13 @@ int numpeople;
 float deviation[100];
 float stddevtion;
 float zscore[100];
-std::vector<Person> students;
 
 int main(){
     int mode;
     float mean, gmean, median;
     std::string temp;
 
-    getPeople();
+    auto students = initPeople();
     sortArray();
     mean = calcMean();
     mode = calcMode();
@@ -54,41 +54,65 @@ int main(){
     return 0;
 }
 
-void getPeople(){
-    int stop = 0, person = 1;
-    std::string temp, temp1;
-    numpeople = 0;
-    while(stop == 0){
-        int restart = 1;
-        while(restart == 1){
-            restart = 0;
+std::vector<Person> initPeople(){
+    std::vector<Person> students;
+    while (true) {
+        printf("enter first and last name (separated by a space) of person %d (leave blank to stop)\n", (students.size() + 1));
+        std::string name_temp;
+        std::getline(std::cin, name_temp);
+        if ((students.size() + 1) > 1 && name_temp.empty()) {break;}
+        Person stu;
+        int idx = name_temp.find_last_of(' ');
+        stu.first_name = name_temp.substr(0, idx);
+        stu.last_name = name_temp.substr(idx + 1, std::string::npos);
 
-            std::cout << "Please enter name of person " << person << " (enter END to stop) : ";
-            std::cin >> temp >> temp1;
-            if(temp == "END"){
-                stop = 1;
-                restart = 0;
-            }
-            else{
-                names[person] = temp;
-                lnames[person] = temp1;
-
-                std::cout << "Please enter score of person " << person << ": ";
-                std::cin >> scores[person];
-
-                if(scores[person] < 0){
-                    std::cout << "The score for " << names[person] << ' ' << lnames[person] << " is " << scores[person] << " which cannot be less than zero.";
-                    restart = 1;
-                }
-                else{
-                    std::cout << "The persons name is " << names[person] << ' ' << lnames[person] << " and they have a score of " << scores[person] << '.' << std::endl;
-                }
-                numpeople++;
-            }
+        do {
+            std::cout << "enter score for " << stu.first_name << " " << stu.last_name << std::endl;
+            std::string score_str;
+            std::getline(std::cin, score_str);
+            stu.score = std::stoi(score_str);
+            if (stu.score < 0) {printf("score cannot be less than zero\n");}
         }
-        person++;
+        while (stu.score < 0);
+
+        students.push_back(stu);
     }
+    numpeople = students.size();
+    return students;
 }
+
+// void initPeople(){
+//     while(!stop){
+//         int restart = 1;
+//         while(restart == 1){
+//             restart = 0;
+
+//             std::cout << "Please enter name of person " << i_person << " (enter END to stop) : ";
+//             std::cin >> temp >> temp1;
+//             if(temp == "END"){
+//                 stop = 1;
+//                 restart = 0;
+//             }
+//             else{
+//                 names[i_person] = temp;
+//                 lnames[i_person] = temp1;
+
+//                 std::cout << "Please enter score of person " << i_person << ": ";
+//                 std::cin >> scores[i_person];
+
+//                 if(scores[i_person] < 0){
+//                     std::cout << "The score for " << names[i_person] << ' ' << lnames[i_person] << " is " << scores[i_person] << " which cannot be less than zero.";
+//                     restart = 1;
+//                 }
+//                 else{
+//                     std::cout << "The persons name is " << names[i_person] << ' ' << lnames[i_person] << " and they have a score of " << scores[i_person] << '.' << std::endl;
+//                 }
+//                 numpeople++;
+//             }
+//         }
+//         i_person++;
+//     }
+// }
 
 void sortArray(){
     std::cout << "Sort initialized." << std::endl;
